@@ -36,7 +36,7 @@ def shp_to_tiff(shp_file, reference_tif, output_tiff):
     band.FlushCache()
 
     # 调用栅格化函数。gdal.RasterizeLayer函数有四个参数，分别有栅格对象，波段，矢量对象，value的属性值将为栅格值
-    gdal.RasterizeLayer(target_ds, [1], shp_layer, options=["ATTRIBUTE=Id"])
+    gdal.RasterizeLayer(target_ds, [1], shp_layer, options=["ATTRIBUTE=name"])
     # 直接写入？？
     y_buffer = band.ReadAsArray()
     target_ds.WriteRaster(0, 0, cols, rows, y_buffer.tobytes())
@@ -63,19 +63,22 @@ def tif_to_shp(input_File, out_File):
     # 参数  输入栅格图像波段\掩码图像波段、矢量化后的矢量图层、需要将DN值写入矢量字段的索引、算法选项、进度条回调函数、进度条参数
     gdal.Polygonize(srcband, maskband, dst_layer, dst_field, options)
 
-# shp_input       要转换的shp文件
-# reference_tif   参考的tif文件
-# shp_file        根据shp输出的tif文件
-shp_file = 'shp_input.shp'
+
+
+# shp_file        要转换的shp文件地址
+# reference_tif   参考的tif文件地址
+# output_tiff     根据shp输出的tif文件地址
+shp_file = 'shp_input/shp_input.shp'
 reference_tif = 'ref.tif'
 output_tiff = 'shp_to_tiff_output.tif'
 
-# tif_input       要转换的tif文件
-# output_shp      根据tif输出的shp文件
+# tif_input       要转换的tif文件地址
+# output_shp      根据tif输出的shp文件地址
 tif_input = 'tif_input.tif'
 output_shp = 'tif_to_shp_output.shp'
 
+
 if __name__ == '__main__':
     shp_to_tiff(shp_file, reference_tif, output_tiff)
-    tif_to_shp(tif_input, output_shp)
+    # tif_to_shp(tif_input, output_shp)
 
